@@ -271,7 +271,7 @@ def main
       date: expense.date.to_s
     }
 
-    puts "Creating: $#{expense.amount}\t #{expense.description}"
+    puts "Creating: #{'%7.2f' % expense.amount}$   #{expense.description}"
     res = client.create_expense(exp)
 
     unless res.ok?
