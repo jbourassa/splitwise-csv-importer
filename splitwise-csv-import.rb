@@ -212,12 +212,26 @@ class ExpenseParser
         header_converters: :symbol,
       ).map do |row|
         ExpenseEntry.new(
-          amount: row[:amount],
+          amount: parse_amount(row[:amount]),
           description: row[:description],
           date: row[:date],
           comment: row[:comment],
           split: row[:split],
         )
+      end
+    end
+
+    private
+
+    def parse_amount(str)
+      case str
+      when String
+        str = str.tr("$", "")
+        str = str.tr(",", "") if str.match?(/\d,\d{3}/)
+
+        Float(str)
+      else
+        str
       end
     end
   end
